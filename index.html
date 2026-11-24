@@ -3,67 +3,89 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Кофейня «Берёза» — отзывы и контакты</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>Отзывы и контакты</title>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#EEF1EC; --card:#FFFFFF; --ink:#16231E; --muted:#5E6B65; --line:#D8DED8;
-  --gis:#1DA025; --yan:#FC3F1D;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#101815; --card:#18231E; --ink:#EAF0EC; --muted:#9AA9A1; --line:#2A3832;}
-}
-*{box-sizing:border-box}
-html,body{margin:0}
+:root{--bg:#EEF1EC;--card:#fff;--ink:#16231E;--muted:#5E6B65;--line:#D8DED8;--accent:#0B5FFF;--gis:#1DA025;--yan:#FC3F1D;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body.dark{--bg:#10151C;--card:#19212B;--ink:#EEF2F7;--muted:#9BA7B6;--line:#2A3542}
+body.stub{--card:rgba(255,255,255,.08);--ink:#fff;--muted:#B7C6E6;--line:rgba(255,255,255,.18);--accent:#3D8BFF;
+  background:linear-gradient(160deg,#050E24 0%,#0A2358 55%,#0E4AA8 100%);min-height:100vh}
+*{box-sizing:border-box}html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
 main{max-width:460px;margin:0 auto;padding:36px 20px 40px}
+.bar{width:44px;height:6px;border-radius:3px;background:var(--accent);margin-bottom:16px}
 h1{font-size:2rem;line-height:1.1;margin:0 0 8px;font-weight:700;letter-spacing:-.01em}
 .sub{margin:0 0 28px;color:var(--muted)}
 h2{font-size:1rem;margin:0 0 10px;font-weight:700}
 .group{margin-bottom:26px}
-a.btn{display:flex;align-items:center;gap:14px;padding:14px 16px;margin-bottom:10px;background:var(--card);
-  border:1px solid var(--line);border-radius:14px;color:var(--ink);text-decoration:none;font-weight:500;min-height:60px}
-a.btn:active{transform:scale(.99)}
-a.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
-.dot{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.9rem}
-.gis .dot{background:var(--gis)} .yan .dot{background:var(--yan)}
-.ico .dot{background:var(--ink);color:var(--bg)}
-.btn small{display:block;color:var(--muted);font-weight:400;font-size:.82rem}
+a.btn{display:flex;align-items:center;gap:14px;padding:14px 16px;margin-bottom:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;color:var(--ink);text-decoration:none;font-weight:500;min-height:60px}
+a.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .review a.btn{border-width:2px}
-footer{color:var(--muted);font-size:.8rem;margin-top:30px}
+.dot{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.9rem;background:var(--accent)}
+.dot.gis{background:var(--gis)}.dot.yan{background:var(--yan)}
+small{display:block;color:var(--muted);font-weight:400;font-size:.82rem}
+ul{padding-left:18px;margin:0 0 24px;color:var(--muted)}
 </style>
 </head>
 <body>
-<main>
-  <!-- 1. Название и описание заведения -->
-  <h1>Кофейня «Берёза»</h1>
-  <p class="sub">Ежедневно с 8:00 до 22:00. Спасибо, что заглянули!</p>
+<main id="app"></main>
+<script>
+// Ваши контакты для страницы-заглушки (непроданные метки)
+const SELLER = {phone:'89242304096', phoneText:'8 924 230-40-96', tg:'Apz343'};
+const app = document.getElementById('app');
+const code = new URLSearchParams(location.search).get('c');
 
-  <!-- 2. Отзывы: замените ссылки на свои -->
-  <section class="group review">
-    <h2>Понравилось? Оставьте отзыв</h2>
-    <a class="btn gis" href="https://2gis.ru/ВАШ_ГОРОД/firm/ВАШ_ID/tab/reviews">
-      <span class="dot">2</span><span>Отзыв в 2ГИС<small>Займёт одну минуту</small></span>
-    </a>
-    <a class="btn yan" href="https://yandex.ru/maps/org/ВАШЕ_НАЗВАНИЕ/ВАШ_ID/reviews/">
-      <span class="dot">Я</span><span>Отзыв в Яндекс Картах<small>Займёт одну минуту</small></span>
-    </a>
-  </section>
+function el(tag, cls, text){ const e = document.createElement(tag); if(cls) e.className = cls; if(text) e.textContent = text; return e; }
+function btn(href, mark, markCls, title, hint){
+  const a = el('a','btn'); a.href = href;
+  a.append(el('span','dot '+markCls, mark));
+  const s = el('span'); s.append(title);
+  if(hint) s.append(el('small','',hint));
+  a.append(s); return a;
+}
+function group(title, cls){ const g = el('section','group '+cls); g.append(el('h2','',title)); return g; }
+const https = u => /^https:\/\//.test(u || '');
+const nick = s => String(s).replace(/^@/,'').replace(/^https?:\/\/[^/]+\//,'');
 
-  <!-- 3. Контакты -->
-  <section class="group ico">
-    <h2>Связаться с нами</h2>
-    <a class="btn" href="tel:+79990000000"><span class="dot">☎</span><span>Позвонить<small>+7 999 000-00-00</small></span></a>
-    <a class="btn" href="https://wa.me/79990000000"><span class="dot">W</span><span>Написать в WhatsApp</span></a>
-    <a class="btn" href="https://t.me/ВАШ_НИК"><span class="dot">T</span><span>Написать в Telegram</span></a>
-    <a class="btn" href="https://vk.com/ВАШ_АДРЕС"><span class="dot">VK</span><span>Мы во ВКонтакте</span></a>
-    <a class="btn" href="https://yandex.ru/maps/?text=ВАШ+АДРЕС"><span class="dot">⌖</span><span>Как добраться<small>г. Город, ул. Примерная, 1</small></span></a>
-  </section>
+function stub(){
+  document.body.className = 'stub';
+  document.title = 'Cyber link — NFC-метки для заведений';
+  app.append(el('div','bar'), el('h1','','Cyber link'),
+    el('p','sub','Эта метка ещё не активирована. Хотите такую для своего заведения? Свяжитесь со мной.'));
+  const ul = el('ul');
+  ['NFC-метки со сбором отзывов (2ГИС, Яндекс Карты)','Создание Telegram-ботов','Автоматизация','Отдельные сайты'].forEach(t => ul.append(el('li','',t)));
+  app.append(ul);
+  const g = group('Связаться','');
+  g.append(btn('tel:'+SELLER.phone,'☎','','Позвонить',SELLER.phoneText));
+  g.append(btn('https://t.me/'+SELLER.tg,'T','','Написать в Telegram','@'+SELLER.tg));
+  app.append(g);
+}
 
-  <footer>Нажмите на кнопку, чтобы перейти.</footer>
-</main>
+fetch('clients.json').then(r => r.json()).then(all => {
+  const c = all[code];
+  if(!c || !c.name){ stub(); return; }
+  if(c.theme === 'dark') document.body.classList.add('dark');
+  if(/^#[0-9a-fA-F]{3,8}$/.test(c.accent || '')) document.documentElement.style.setProperty('--accent', c.accent);
+  document.title = c.name + ' — отзывы и контакты';
+  app.append(el('div','bar'), el('h1','',c.name));
+  if(c.subtitle) app.append(el('p','sub',c.subtitle));
+
+  if(https(c.gis) || https(c.yandex)){
+    const g = group('Понравилось? Оставьте отзыв','review');
+    if(https(c.gis)) g.append(btn(c.gis,'2','gis','Отзыв в 2ГИС','Займёт одну минуту'));
+    if(https(c.yandex)) g.append(btn(c.yandex,'Я','yan','Отзыв в Яндекс Картах','Займёт одну минуту'));
+    app.append(g);
+  }
+  const k = group('Связаться с нами','');
+  if(c.phone) k.append(btn('tel:'+c.phone.replace(/[^+\d]/g,''),'☎','','Позвонить',c.phone));
+  if(c.whatsapp) k.append(btn('https://wa.me/'+c.whatsapp.replace(/\D/g,''),'W','','Написать в WhatsApp'));
+  if(c.telegram) k.append(btn('https://t.me/'+encodeURIComponent(nick(c.telegram)),'T','','Написать в Telegram'));
+  if(https(c.vk)) k.append(btn(c.vk,'VK','','Мы во ВКонтакте'));
+  if(c.instagram) k.append(btn('https://instagram.com/'+encodeURIComponent(nick(c.instagram)),'IG','','Мы в Instagram'));
+  if(c.address) k.append(btn('https://yandex.ru/maps/?text='+encodeURIComponent(c.address),'⌖','','Как добраться',c.address));
+  app.append(k);
+}).catch(() => stub());
+</script>
 </body>
 </html>
