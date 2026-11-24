@@ -1,0 +1,27 @@
+{
+  "demo": {
+    "name": "Кофейня «Берёза»",
+    "subtitle": "Ежедневно с 8:00 до 22:00. Спасибо, что заглянули!",
+    "accent": "#0B5FFF",
+    "theme": "light",
+    "gis": "https://2gis.ru/ВАШ_ГОРОД/firm/ВАШ_ID/tab/reviews",
+    "yandex": "https://yandex.ru/maps/org/ВАШЕ_НАЗВАНИЕ/ВАШ_ID/reviews/",
+    "phone": "+79990000000",
+    "whatsapp": "79990000000",
+    "telegram": "ВАШ_НИК",
+    "vk": "https://vk.com/ВАШ_АДРЕС",
+    "instagram": "ВАШ_НИК",
+    "address": "г. Город, ул. Примерная, 1"
+  },
+  "001": {
+    "name": "Название заведения",
+    "subtitle": "Короткое описание",
+    "accent": "#E4572E",
+    "theme": "dark",
+    "gis": "",
+    "yandex": "",
+    "phone": "",
+    "telegram": "",
+    "address": ""
+  }
+}
