@@ -1,27 +1,74 @@
-{
-  "demo": {
-    "name": "Кофейня «Берёза»",
-    "subtitle": "Ежедневно с 8:00 до 22:00. Спасибо, что заглянули!",
-    "accent": "#0B5FFF",
-    "theme": "light",
-    "gis": "https://2gis.ru/ВАШ_ГОРОД/firm/ВАШ_ID/tab/reviews",
-    "yandex": "https://yandex.ru/maps/org/ВАШЕ_НАЗВАНИЕ/ВАШ_ID/reviews/",
-    "phone": "+79990000000",
-    "whatsapp": "79990000000",
-    "telegram": "ВАШ_НИК",
-    "vk": "https://vk.com/ВАШ_АДРЕС",
-    "instagram": "ВАШ_НИК",
-    "address": "г. Город, ул. Примерная, 1"
-  },
-  "001": {
-    "name": "Название заведения",
-    "subtitle": "Короткое описание",
-    "accent": "#E4572E",
-    "theme": "dark",
-    "gis": "",
-    "yandex": "",
-    "phone": "",
-    "telegram": "",
-    "address": ""
-  }
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Отзывы и контакты</title>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF1EC;--card:#fff;--ink:#16231E;--muted:#5E6B65;--line:#D8DED8;--accent:#0B5FFF;--gis:#1DA025;--yan:#FC3F1D;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body.dark{--bg:#10151C;--card:#19212B;--ink:#EEF2F7;--muted:#9BA7B6;--line:#2A3542}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
+main{max-width:460px;margin:0 auto;padding:36px 20px 40px}
+.bar{width:44px;height:6px;border-radius:3px;background:var(--accent);margin-bottom:16px}
+h1{font-size:2rem;line-height:1.1;margin:0 0 8px;font-weight:700;letter-spacing:-.01em}
+.sub{margin:0 0 28px;color:var(--muted)}
+h2{font-size:1rem;margin:0 0 10px;font-weight:700}
+.group{margin-bottom:26px}
+a.btn{display:flex;align-items:center;gap:14px;padding:14px 16px;margin-bottom:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;color:var(--ink);text-decoration:none;font-weight:500;min-height:60px}
+a.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.review a.btn{border-width:2px}
+.dot{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.9rem;background:var(--accent)}
+.dot.gis{background:var(--gis)}.dot.yan{background:var(--yan)}
+small{display:block;color:var(--muted);font-weight:400;font-size:.82rem}
+.credit{margin-top:28px;color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const app = document.getElementById('app');
+const code = new URLSearchParams(location.search).get('c');
+
+function el(tag, cls, text){ const e = document.createElement(tag); if(cls) e.className = cls; if(text) e.textContent = text; return e; }
+function btn(href, mark, markCls, title, hint){
+  const a = el('a','btn'); a.href = href;
+  a.append(el('span','dot '+markCls, mark));
+  const s = el('span'); s.append(title);
+  if(hint) s.append(el('small','',hint));
+  a.append(s); return a;
 }
+function group(title, cls){ const g = el('section','group '+cls); g.append(el('h2','',title)); return g; }
+const https = u => /^https:\/\//.test(u || '');
+const nick = s => String(s).replace(/^@/,'').replace(/^https?:\/\/[^/]+\//,'');
+
+fetch('clients.json').then(r => r.json()).then(all => {
+  const c = all[code] || all['demo'];
+  if(!c || !c.name){ app.append(el('p','sub','Страница не найдена.')); return; }
+  if(c.theme === 'dark') document.body.classList.add('dark');
+  if(/^#[0-9a-fA-F]{3,8}$/.test(c.accent || '')) document.documentElement.style.setProperty('--accent', c.accent);
+  document.title = c.name + ' — отзывы и контакты';
+  app.append(el('div','bar'), el('h1','',c.name));
+  if(c.subtitle) app.append(el('p','sub',c.subtitle));
+
+  if(https(c.gis) || https(c.yandex)){
+    const g = group('Понравилось? Оставьте отзыв','review');
+    if(https(c.gis)) g.append(btn(c.gis,'2','gis','Отзыв в 2ГИС','Займёт одну минуту'));
+    if(https(c.yandex)) g.append(btn(c.yandex,'Я','yan','Отзыв в Яндекс Картах','Займёт одну минуту'));
+    app.append(g);
+  }
+  const k = group('Связаться с нами','');
+  if(c.phone) k.append(btn('tel:'+c.phone.replace(/[^+\d]/g,''),'☎','','Позвонить',c.phone));
+  if(c.whatsapp) k.append(btn('https://wa.me/'+c.whatsapp.replace(/\D/g,''),'W','','Написать в WhatsApp'));
+  if(c.telegram) k.append(btn('https://t.me/'+encodeURIComponent(nick(c.telegram)),'T','','Написать в Telegram'));
+  if(https(c.vk)) k.append(btn(c.vk,'VK','','Мы во ВКонтакте'));
+  if(c.instagram) k.append(btn('https://instagram.com/'+encodeURIComponent(nick(c.instagram)),'IG','','Мы в Instagram'));
+  if(c.address) k.append(btn('https://yandex.ru/maps/?text='+encodeURIComponent(c.address),'⌖','','Как добраться',c.address));
+  app.append(k);
+  if(c.credit) app.append(el('p','credit',c.credit));
+}).catch(() => app.append(el('p','sub','Не удалось загрузить страницу. Попробуйте ещё раз.')));
+</script>
+</body>
+</html>
