@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Кофейня «Берёза» — отзывы и контакты</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF1EC; --card:#FFFFFF; --ink:#16231E; --muted:#5E6B65; --line:#D8DED8;
+  --gis:#1DA025; --yan:#FC3F1D;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#101815; --card:#18231E; --ink:#EAF0EC; --muted:#9AA9A1; --line:#2A3832;}
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
+main{max-width:460px;margin:0 auto;padding:36px 20px 40px}
+h1{font-size:2rem;line-height:1.1;margin:0 0 8px;font-weight:700;letter-spacing:-.01em}
+.sub{margin:0 0 28px;color:var(--muted)}
+h2{font-size:1rem;margin:0 0 10px;font-weight:700}
+.group{margin-bottom:26px}
+a.btn{display:flex;align-items:center;gap:14px;padding:14px 16px;margin-bottom:10px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;color:var(--ink);text-decoration:none;font-weight:500;min-height:60px}
+a.btn:active{transform:scale(.99)}
+a.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.dot{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.9rem}
+.gis .dot{background:var(--gis)} .yan .dot{background:var(--yan)}
+.ico .dot{background:var(--ink);color:var(--bg)}
+.btn small{display:block;color:var(--muted);font-weight:400;font-size:.82rem}
+.review a.btn{border-width:2px}
+footer{color:var(--muted);font-size:.8rem;margin-top:30px}
+</style>
+</head>
+<body>
+<main>
+  <!-- 1. Название и описание заведения -->
+  <h1>Кофейня «Берёза»</h1>
+  <p class="sub">Ежедневно с 8:00 до 22:00. Спасибо, что заглянули!</p>
+
+  <!-- 2. Отзывы: замените ссылки на свои -->
+  <section class="group review">
+    <h2>Понравилось? Оставьте отзыв</h2>
+    <a class="btn gis" href="https://2gis.ru/ВАШ_ГОРОД/firm/ВАШ_ID/tab/reviews">
+      <span class="dot">2</span><span>Отзыв в 2ГИС<small>Займёт одну минуту</small></span>
+    </a>
+    <a class="btn yan" href="https://yandex.ru/maps/org/ВАШЕ_НАЗВАНИЕ/ВАШ_ID/reviews/">
+      <span class="dot">Я</span><span>Отзыв в Яндекс Картах<small>Займёт одну минуту</small></span>
+    </a>
+  </section>
+
+  <!-- 3. Контакты -->
+  <section class="group ico">
+    <h2>Связаться с нами</h2>
+    <a class="btn" href="tel:+79990000000"><span class="dot">☎</span><span>Позвонить<small>+7 999 000-00-00</small></span></a>
+    <a class="btn" href="https://wa.me/79990000000"><span class="dot">W</span><span>Написать в WhatsApp</span></a>
+    <a class="btn" href="https://t.me/ВАШ_НИК"><span class="dot">T</span><span>Написать в Telegram</span></a>
+    <a class="btn" href="https://vk.com/ВАШ_АДРЕС"><span class="dot">VK</span><span>Мы во ВКонтакте</span></a>
+    <a class="btn" href="https://yandex.ru/maps/?text=ВАШ+АДРЕС"><span class="dot">⌖</span><span>Как добраться<small>г. Город, ул. Примерная, 1</small></span></a>
+  </section>
+
+  <footer>Нажмите на кнопку, чтобы перейти.</footer>
+</main>
+</body>
+</html>
